@@ -17,8 +17,10 @@ app.get('/results', (req, res) => {
 });
 
 app.post('/results', (req, res) => {
-    console.log(app.database.get_results({username: req.body.username}));
-    res.json('results')
+    let data = app.database.get_results({username: req.body.username});
+    console.log(data)
+    console.log(data.typedef)
+    res.json(data)
 });
 
 app.get('/', (req, res) => {

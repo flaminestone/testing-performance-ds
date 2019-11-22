@@ -2,6 +2,7 @@
 <html>
   <head>
     <link rel='stylesheet' type="text/css" href='public/stylesheets/style.css' />
+     <script type="text/javascript" src="public/javascript/database.js"></script>
   </head>
   <body>
   <div class="space">
@@ -11,11 +12,16 @@
           <input placeholder="User name" id="username">
           <button>save</button>
         </div>
-        <button>Start all</button>
-        <%= data %>
+        <button onclick="loadind()">Load data</button>
       </div>
     </div>
   </div>
 
   </body>
 </html>
+
+<script>
+    function loadind() {
+        console.log(Database.get_results(userName))
+    }
+</script>
