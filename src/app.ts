@@ -12,6 +12,15 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
+app.get('/results', (req, res) => {
+    res.render('results')
+});
+
+app.post('/results', (req, res) => {
+    console.log(app.database.get_results({username: req.body.username}));
+    res.json('results')
+});
+
 app.get('/', (req, res) => {
     let files = fs.readdirSync('./src/public/documents');
     res.render('index', { documentServer: 'http://192.168.3.195:3000',
@@ -24,8 +33,8 @@ app.post('/callback:filename', (req, res) => {
     res.json({error: 0});
 });
 
-app.post('/result', (req, res) => {
-    app.database.add_result({username: req.body.username, time: req.body.time, filename: req.body.filename})
+app.post('/add_result', (req, res) => {
+    app.database.add_result({username: req.body.username, time: req.body.time, filename: req.body.filename});
     res.json({error: 0});
 });
 
