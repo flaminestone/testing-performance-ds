@@ -1,3 +1,4 @@
+
 class Driver {
 
     constructor(editor, files) {
@@ -12,16 +13,13 @@ class Driver {
             console.log('Open file ' + file);
             this.editor.open(file);
             let time = await this.editor.get_time(60000);
-            this.send_result({username: this.editor.userName, time: time, filename: file})
+            this.send_result({username: this.editor.userName, time: Math.round(time), filename: file})
         }
     }
 
     send_result(data) {
+        console.log('send_result')
         console.log(data)
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", '/result', true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(data));
+        Database.send_result(data)
     }
-
 }
