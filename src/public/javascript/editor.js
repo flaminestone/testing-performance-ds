@@ -42,7 +42,7 @@ class Editor {
             documentType: 'text',
             document: {
                 fileType: "docx",
-                url: this.callback + "/documents/" + filename,
+                url: this.callback + "/public/documents/" + filename,
             },
             editorConfig: {
                 mode: 'edit',

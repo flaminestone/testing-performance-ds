@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' type="text/css" href='public/stylesheets/style.css' />
     <script type="text/javascript" src="<%= documentServer %>/web-apps/apps/api/documents/api.js"></script>
-    <script type="text/javascript" src="javascript/editor.js"></script>
-    <script type="text/javascript" src="javascript/driver.js"></script>
-    <script type="text/javascript" src="javascript/helper.js"></script>
+    <script type="text/javascript" src="public/javascript/editor.js"></script>
+    <script type="text/javascript" src="public/javascript/driver.js"></script>
+    <script type="text/javascript" src="public/javascript/helper.js"></script>
   </head>
   <body>
   <div class="space">
@@ -14,7 +14,6 @@
         <div class="user_form">
           <input placeholder="User name" id="username">
           <button onclick="update_username()">save</button>
-
         </div>
         <button onclick="start_all()">Start all</button>
       </div>
