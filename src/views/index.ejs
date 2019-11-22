@@ -1,43 +1,43 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel='stylesheet' type="text/css" href='public/stylesheets/style.css' />
+<head>
+    <link rel='stylesheet' type="text/css" href='public/stylesheets/style.css'/>
     <script type="text/javascript" src="<%= documentServer %>/web-apps/apps/api/documents/api.js"></script>
     <script type="text/javascript" src="public/javascript/editor.js"></script>
     <script type="text/javascript" src="public/javascript/driver.js"></script>
     <script type="text/javascript" src="public/javascript/helper.js"></script>
-  </head>
-  <body>
-  <div class="space">
+    <script type="text/javascript" src="public/javascript/database.js"></script>
+</head>
+<body>
+<div class="space">
     <div class="info">
-      <div class="action-form">
-        <div class="user_form">
-          <input placeholder="User name" id="username">
-          <button onclick="update_username()">save</button>
+        <div class="action-form">
+            <div class="user_form">
+                <input placeholder="User name" id="username">
+                <button onclick="update_username()">save</button>
+            </div>
+            <button onclick="start_all()">Start all</button>
         </div>
-        <button onclick="start_all()">Start all</button>
-      </div>
     </div>
     <div id="editor">
-      <div id="editor_frame"></div>
+        <div id="editor_frame"></div>
     </div>
-  </div>
+</div>
 
-  <script>
+<script>
     const files = JSON.parse(htmlDecode("<%= JSON.stringify(files) %>"))
     let userName = document.getElementById('username').value
     let driver = new Driver(new Editor({callback: "<%= exampleUrl %>", userName: userName}), files)
 
-
     function start_all() {
-      driver.open_all().then(() => {console.log('Finish!')})
+        driver.open_all().then(() => {console.log('Finish!')})
     }
 
     function update_username() {
-      userName = document.getElementById('username').value
-      driver = new Driver(new Editor({callback: "<%= exampleUrl %>", userName: userName}), files)
-      console.log('Username is updated: ' + userName)
+        userName = document.getElementById('username').value
+        driver = new Driver(new Editor({callback: "<%= exampleUrl %>", userName: userName}), files)
+        console.log('Username is updated: ' + userName)
     }
-  </script>
-  </body>
+</script>
+</body>
 </html>
