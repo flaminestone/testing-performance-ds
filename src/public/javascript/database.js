@@ -6,11 +6,17 @@ class Database {
         xhr.send(JSON.stringify(data));
     }
 
-    static get_results(username) {
+    static get_results(username, callback) {
         var xhr = new XMLHttpRequest();
         xhr.open("POST", '/results', true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({username: username}));
+        xhr.onreadystatechange = (e) => {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                callback(xhr.responseText)
+            }
+
+        }
     }
 
 }
