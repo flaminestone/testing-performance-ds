@@ -17,16 +17,14 @@ app.get('/results', (req, res) => {
 });
 
 app.post('/results', (req, res) => {
-    console.log({username: req.body.username})
     let data = app.database.get_results(req.body.username);
-    console.log(data)
     res.json(data)
 });
 
 app.get('/', (req, res) => {
     let files = fs.readdirSync('./src/public/documents');
-    res.render('index', { documentServer: 'http://192.168.0.101:3000',
-        exampleUrl: 'http://192.168.0.101:8000',
+    res.render('index', { documentServer: 'http://192.168.3.195:3000',
+        exampleUrl: 'http://192.168.3.195:8000',
         files: files,
         userName: 'User name'});
 });

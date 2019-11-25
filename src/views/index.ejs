@@ -10,11 +10,14 @@
 </head>
 <body>
 <div class="space">
+    <div class="navigation">
+        <a href="/results">results</a>
+    </div>
     <div class="info">
         <div class="action-form">
             <div class="user_form">
-                <input placeholder="User name" id="username">
-                <button onclick="update_username()">save</button>
+                <label for="username">Username</label>
+                <input placeholder="User name" id="username" autocomplete="off">
             </div>
             <button onclick="start_all()">Start all</button>
         </div>
@@ -25,18 +28,18 @@
 </div>
 
 <script>
-    const files = JSON.parse(htmlDecode("<%= JSON.stringify(files) %>"))
-    let userName = document.getElementById('username').value
-    let driver = new Driver(new Editor({callback: "<%= exampleUrl %>", userName: userName}), files)
-
-    function start_all() {
-        driver.open_all().then(() => {console.log('Finish!')})
+    if (localStorage.getItem('username') !== '') {
+        document.getElementById('username').value = localStorage.getItem('username');
+    }
+    function files_list() {
+        return(JSON.parse(htmlDecode("<%= JSON.stringify(files) %>")))
     }
 
-    function update_username() {
-        userName = document.getElementById('username').value
-        driver = new Driver(new Editor({callback: "<%= exampleUrl %>", userName: userName}), files)
-        console.log('Username is updated: ' + userName)
+    function start_all() {
+        localStorage.setItem('username', document.getElementById('username').value)
+        let userName = localStorage.getItem('username')
+        let driver = new Driver(new Editor({callback: "<%= exampleUrl %>", userName: userName}), files_list())
+        driver.open_all().then(() => {console.log('Finish!')})
     }
 </script>
 </body>

@@ -8,13 +8,15 @@
   </head>
   <body>
   <div class="space">
+    <div class="navigation">
+      <a href="/">test</a>
+    </div>
     <div class="info">
       <div class="action-form">
         <div class="user_form">
           <input placeholder="User name" id="username">
-          <button>save</button>
         </div>
-        <button onclick="loadind()">Load data</button>
+        <button onclick="loading()">Load data</button>
       </div>
     </div>
   </div>
@@ -24,18 +26,30 @@
 </html>
 
 <script>
+  if (localStorage.getItem('username') !== '') {
+    document.getElementById('username').value = localStorage.getItem('username');
+  }
+
   //define data
-  Database.get_results('11', function (x) {
-    console.log(x)
-    x = [{"filename":"Document1.docx","time":1480}]
-    var table = new Tabulator("#table", {
-      data:x,
+  Database.get_results(localStorage.getItem('username')).then(results => {
+    let averagedResults = []
+    console.log(results)
+    console.log(JSON.parse(results))
+    JSON.parse(results).forEach(x => {
+      averagedResults.push({filename: x.filename,
+        count: x.time.length,
+        average: x.time.reduce((a,b) => a + b, 0) / x.time.length,
+        max: Math.max(...x.time),
+        min: Math.min(...x.time)})
+    })
+
+    new Tabulator("#table", {
+      data:averagedResults,
       autoColumns:true,
     });
-    table.tabulator("setData", x);
-
-
   });
+
+
   // console.log(tabledata1)
   // var tabledata = [
   //   {id:1, name:"Oli Bob", location:"United Kingdom", gender:"male", rating:1, col:"red", dob:"14/04/1984"},
@@ -57,7 +71,7 @@
   // });
   // table.tabulator("setData", tabledata);
 
-  function loadind() {
+  function loading() {
         console.log(Database.get_results(document.getElementById('username').value))
     }
 </script>
