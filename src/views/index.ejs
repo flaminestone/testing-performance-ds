@@ -19,6 +19,12 @@
                 <label for="username">Username</label>
                 <input placeholder="User name" id="username" autocomplete="off">
             </div>
+
+            <div class="generation_form">
+                <label for="start_from">Start from</label>
+                <input placeholder="start from" id="start_from" autocomplete="off" value="0">
+                <button onclick="paragraph_generate()">Generated documents: paragraph</button>
+            </div>
             <button onclick="start_all()">Start all</button>
         </div>
     </div>
@@ -38,8 +44,19 @@
     function start_all() {
         localStorage.setItem('username', document.getElementById('username').value)
         let userName = localStorage.getItem('username')
-        let driver = new Driver(new Editor({callback: "<%= exampleUrl %>", userName: userName}), files_list())
+        let driver = new Driver(new Editor({callback: "<%= exampleUrl %>", userName: userName}), {files: files_list()})
         driver.open_all().then(() => {console.log('Finish!')})
+    }
+
+    function paragraph_generate() {
+        localStorage.setItem('username', document.getElementById('username').value)
+        localStorage.setItem('start_from', document.getElementById('start_from').value)
+        let userName = localStorage.getItem('userName')
+        let start_from = localStorage.getItem('start_from')
+        const option = {case: 'paragraphs', start_from: start_from}
+        const editor = new Editor({callback: "<%= exampleUrl %>", userName: userName})
+        let driver = new Driver(editor, option)
+        driver.open_with_generate().then(() => {console.log('Finish!')})
     }
 </script>
 </body>

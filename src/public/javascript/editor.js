@@ -54,4 +54,28 @@ class Editor {
         };
         window.instance = new DocsAPI.DocEditor("editor_frame", config);
     }
+
+    open_by_link(link, log) {
+        window.time = 0;
+        this.time_tmp = 0;
+        const config = {
+            events: {
+                "onDocumentReady": this.onDocumentReady,
+                "onAppReady": this.onAppReady,
+            },
+            documentType: 'text',
+            document: {
+                fileType: "docx",
+                url: link,
+            },
+            editorConfig: {
+                mode: 'edit',
+                callbackUrl: this.callback + '/callback' + '&log=' + log,
+                user: {
+                    name: this.userName
+                }
+            },
+        };
+        window.instance = new DocsAPI.DocEditor("editor_frame", config);
+    }
 }
