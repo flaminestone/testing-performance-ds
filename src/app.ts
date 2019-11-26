@@ -7,7 +7,6 @@ import { Builder } from './lib/builder'
 import bodyParser = require("body-parser");
 const settings = require("../src/settings.json");
 
-
 const app = express();
 app.database = new Database();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -22,6 +21,11 @@ app.get('/results', (req, res) => {
 
 app.post('/results', (req, res) => {
     let data = app.database.get_results(req.body.username);
+    res.json(data)
+});
+
+app.post('/users', (req, res) => {
+    let data = app.database.get_users();
     res.json(data)
 });
 

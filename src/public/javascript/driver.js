@@ -18,14 +18,14 @@ class Driver {
         }
     }
 
-    async open_with_generate() {
-        this.generate_document(this.option.start_from).then((result) => {
+    async open_with_generate(case_name) {
+        return this.generate_document(this.option.start_from).then((result) => {
             let fileurl = JSON.parse(result)['fileurl'];
-            this.editor.open_by_link(fileurl).then(() => {
-                return this.editor.get_time(60000);
-            }).then(time => {
-                this.send_result({ username: this.editor.userName, time: Math.round(time), log: file });
-            });
+            this.editor.open_by_link(fileurl);
+            return this.editor.get_time(60000);
+        }).then(time => {
+            console.log(this.editor)
+            this.send_result({ username: this.editor.userName, time: Math.round(time), log: case_name });
         });
     }
 

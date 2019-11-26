@@ -40,4 +40,12 @@ export class Database {
     get_results(username) {
         return this.db.get('users').find({username: username}).get('files').value();
     }
+
+    get_users() {
+        let usernames = this.db.get('users').map(element => {
+            return {username: element['username']}
+        });
+        usernames = usernames.filter(element => element['username'] !== undefined);
+        return usernames;
+    }
 }
