@@ -9,12 +9,13 @@ a {
 
 .space {
   display: flex;
+  flex-direction: column;
 }
 .info {
   display: flex;
   flex: 1;
 }
 
-.user_form {
-
+.navigation {
+  padding-bottom: 2em;
 }

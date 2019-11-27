@@ -2,7 +2,10 @@ import express from 'express'
 import path from 'path'
 import fs from "fs";
 import { Database } from './lib/database'
+import { Generator } from './lib/generator'
+import { Builder } from './lib/builder'
 import bodyParser = require("body-parser");
+const settings = require("../src/settings.json");
 
 const app = express();
 app.database = new Database();
@@ -17,14 +20,19 @@ app.get('/results', (req, res) => {
 });
 
 app.post('/results', (req, res) => {
-    console.log(app.database.get_results({username: req.body.username}));
-    res.json('results')
+    let data = app.database.get_results(req.body.username);
+    res.json(data)
+});
+
+app.post('/users', (req, res) => {
+    let data = app.database.get_users();
+    res.json(data)
 });
 
 app.get('/', (req, res) => {
     let files = fs.readdirSync('./src/public/documents');
-    res.render('index', { documentServer: 'http://192.168.3.195:3000',
-        exampleUrl: 'http://192.168.3.195:8000',
+    res.render('index', { documentServer: settings['documentserver'],
+        exampleUrl: settings['host_url'],
         files: files,
         userName: 'User name'});
 });
@@ -34,8 +42,15 @@ app.post('/callback:filename', (req, res) => {
 });
 
 app.post('/add_result', (req, res) => {
-    app.database.add_result({username: req.body.username, time: req.body.time, filename: req.body.filename});
+    console.log(req.body);
     res.json({error: 0});
+});
+
+app.post('/generate:counter', (req, res) => {
+    const filename = Generator.generate_document(req.body);
+    Builder.build(filename).then(responce => {
+        res.json({fileurl: Object.values(responce['urls'])[0]});
+    })
 });
 
 app.listen(8000, () => console.log(`Example app listening on port ${8000}!`));

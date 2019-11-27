@@ -1,9 +1,10 @@
 
 class Driver {
 
-    constructor(editor, files) {
+    constructor(editor, option = {}) {
         this.editor = editor;
-        this.files = files;
+        this.files = option.files || [];
+        this.option = option;
         this.results = {};
     }
     async open_all() {
@@ -13,8 +14,33 @@ class Driver {
             console.log('Open file ' + file);
             this.editor.open(file);
             let time = await this.editor.get_time(60000);
-            this.send_result({username: this.editor.userName, time: Math.round(time), filename: file})
+            this.send_result({ username: this.editor.userName, time: Math.round(time), filename: file })
         }
+    }
+
+    async open_with_generate(case_name) {
+        return this.generate_document(this.option.start_from).then((result) => {
+            let fileurl = JSON.parse(result)['fileurl'];
+            this.editor.open_by_link(fileurl);
+            return this.editor.get_time(60000);
+        }).then(time => {
+            console.log(this.editor)
+            this.send_result({ username: this.editor.userName, time: Math.round(time), log: case_name });
+        });
+    }
+
+    generate_document(counter) {
+        return new Promise((succeed) => {
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", '/generate' +  '&counter=' + counter, true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({case: this.option.case, counter: counter}));
+            xhr.onreadystatechange = (e) => {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    succeed(xhr.responseText)
+                }
+            }
+        })
     }
 
     send_result(data) {

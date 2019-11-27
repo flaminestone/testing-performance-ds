@@ -2,20 +2,53 @@
 <html>
   <head>
     <link rel='stylesheet' type="text/css" href='public/stylesheets/style.css' />
+     <script type="text/javascript" src="public/javascript/database.js"></script>
+     <script type="text/javascript" src="public/javascript/helper.js"></script>
+    <link href="public/javascript/lib/tabulator/css/tabulator.min.css" rel="stylesheet">
+    <script type="text/javascript" src="public/javascript/lib/tabulator/js/tabulator.min.js"></script>
   </head>
   <body>
   <div class="space">
+    <div class="navigation">
+      <a href="/">test</a>
+    </div>
     <div class="info">
       <div class="action-form">
-        <div class="user_form">
-          <input placeholder="User name" id="username">
-          <button>save</button>
-        </div>
-        <button>Start all</button>
-        <%= data %>
       </div>
     </div>
   </div>
+  <button onclick="show_userlist()">User list</button>
+  <div class="current-user" id="current-user"></div>
+  <div id="table"></div>
 
   </body>
 </html>
+
+
+<script>
+  show_userlist();
+  function show_results(username) {
+    Database.get_results(username).then(results => {
+      let averagedResults = reformat_results(results)
+      new Tabulator("#table", {
+        data:averagedResults,
+        autoColumns:true,
+      });
+    });
+  }
+
+  function show_userlist() {
+      document.getElementById('current-user').innerHTML = '';
+    Database.get_userlist().then(usernames => {
+      new Tabulator("#table", {
+        rowClick:function(e, row){
+            document.getElementById('current-user').innerHTML = 'sdasdasd';
+            show_results(row.getData().username)
+        },
+
+        data:JSON.parse(usernames),
+        autoColumns:true,
+      });
+    });
+  }
+</script>
