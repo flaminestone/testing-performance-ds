@@ -1,0 +1,11 @@
+//
+var oDocument = Api.GetDocument();
+var oParagraph;
+for (i = 0; i < counter; i++) {
+    oParagraph = Api.CreateParagraph();
+    oRun = Api.CreateRun();
+    oRun.AddText("\n" +
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec lacinia, felis vitae consectetur laoreet, metus metus viverra purus, quis tempus odio ante nec massa. Morbi vulputate fermentum consequat. In rhoncus, felis et porta faucibus, ex velit interdum metus, a mollis mi augue fermentum odio. Fusce ac nulla eget ligula dignissim tincidunt. Proin mollis ante diam, at viverra dui rhoncus ac. Ut blandit lorem ut diam porta, sit amet aliquam leo finibus. Nullam a arcu nec dui volutpat pulvinar. Mauris ullamcorper, elit ac hendrerit consequat, lorem nunc vestibulum odio, vestibulum accumsan ipsum lorem eget enim. Morbi scelerisque purus et lacus ornare cursus. Proin pretium magna volutpat felis vehicula, non dictum risus feugiat. Quisque ligula lacus, hendrerit consequat massa eget, tristique ornare orci. Sed ultrices rutrum metus nec eleifend. Nulla ut malesuada augue. In hendrerit ac metus vel auctor.");
+    oParagraph.AddElement(oRun);
+    oDocument.Push(oParagraph);
+}

@@ -87,20 +87,6 @@
         })
     }
 
-    function generate_and_open() {
-        localStorage.setItem('username', document.getElementById('username').value)
-        localStorage.setItem('start_from', document.getElementById('start_from').value)
-        let userName = localStorage.getItem('userName')
-        let start_from = localStorage.getItem('start_from')
-        const option = {case: 'paragraphs', start_from: start_from}
-        const editor = new Editor({callback: "<%= exampleUrl %>", userName: userName})
-        let driver = new Driver(editor, option)
-        driver.open_with_generate('paragraph').then(() => {
-            log('Finish!')
-            console.log('Finish!')
-        })
-    }
-
     function paragraph_generate() {
         log_clear()
         localStorage.setItem('username', document.getElementById('username').value)
