@@ -91,7 +91,7 @@
         log_clear()
         localStorage.setItem('username', document.getElementById('username').value)
         localStorage.setItem('start_from', document.getElementById('start_from').value)
-        let userName = localStorage.getItem('userName')
+        let userName = localStorage.getItem('username')
         let start_from = localStorage.getItem('start_from')
         const option = {case: this.selected_case, start_from: start_from}
         const editor = new Editor({callback: "<%= exampleUrl %>", userName: userName})
