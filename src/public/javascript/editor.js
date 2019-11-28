@@ -1,9 +1,7 @@
 class Editor {
     constructor(option = {}) {
         this.callback = option.callback;
-        if (option.userName) {
-            this.userName = option.userName;
-        }
+        this.userName = option.userName;
         window.time = 0;
         this.time_tmp = 0;
     }
