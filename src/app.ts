@@ -31,9 +31,11 @@ app.post('/users', (req, res) => {
 
 app.get('/', (req, res) => {
     let files = fs.readdirSync('./src/public/documents');
+    let cases = fs.readdirSync('./src/public/scripts');
     res.render('index', { documentServer: settings['documentserver'],
         exampleUrl: settings['host_url'],
         files: files,
+        cases: cases,
         userName: 'User name'});
 });
 

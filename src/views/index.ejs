@@ -2,31 +2,58 @@
 <html>
 <head>
     <link rel='stylesheet' type="text/css" href='public/stylesheets/style.css'/>
+    <link rel='stylesheet' type="text/css" href='public/stylesheets/tabs.css'/>
     <script type="text/javascript" src="<%= documentServer %>/web-apps/apps/api/documents/api.js"></script>
     <script type="text/javascript" src="public/javascript/editor.js"></script>
     <script type="text/javascript" src="public/javascript/driver.js"></script>
     <script type="text/javascript" src="public/javascript/helper.js"></script>
     <script type="text/javascript" src="public/javascript/database.js"></script>
+    <script type="text/javascript" src="public/javascript/tabs.js"></script>
 </head>
 <body>
-<div class="space">
+<div class="header">
     <div class="navigation">
         <a href="/results">results</a>
     </div>
-    <div class="info">
-        <div class="action-form">
-            <div class="user_form">
-                <label for="username">Username</label>
-                <input placeholder="User name" id="username" autocomplete="off">
-            </div>
+    <div class="user_form">
+        <input placeholder="User name" id="username" autocomplete="off">
+    </div>
+</div>
 
-            <div class="generation_form">
-                <label for="start_from">Start from</label>
-                <input placeholder="start from" id="start_from" autocomplete="off" value="0">
-                <button onclick="paragraph_generate()">Generated documents: paragraph</button>
-            </div>
-            <button onclick="start_all()">Start all</button>
+<div class="space">
+
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(this, 'Cases')" id="defaultOpen">Cases</button>
+        <button class="tablinks" onclick="openTab(this, 'Files')">Files</button>
+    </div>
+
+    <!-- Tab content -->
+    <div id="Cases" class="tabcontent">
+        <div class="list-of-cases">
+            <% for(var i = 0; i < cases.length; i++) { %>
+                <div class="case" onclick="select(this)"><%= cases[i] %></div>
+            <% } %>
         </div>
+        <div class="action-space">
+            <div class="info">
+                <div class="action-form">
+                    <div class="generation_form">
+                        <label for="start_from">Start from</label>
+                        <input placeholder="position" id="start_from" autocomplete="off" value="0">
+                    </div>
+                </div>
+            </div>
+            <button onclick="paragraph_generate()">Run</button>
+        </div>
+
+        <div class="log-space">
+            <pre id="log-element"></pre>
+        </div>
+    </div>
+
+    <div id="Files" class="tabcontent">
+        <h3>Paris</h3>
+        <p>Paris is the capital of France.</p>
     </div>
     <div id="editor">
         <div id="editor_frame"></div>
@@ -34,21 +61,33 @@
 </div>
 
 <script>
+    select();
+    document.getElementById("defaultOpen").click();
     if (localStorage.getItem('username') !== '') {
         document.getElementById('username').value = localStorage.getItem('username');
     }
+
     function files_list() {
-        return(JSON.parse(htmlDecode("<%= JSON.stringify(files) %>")))
+        return (JSON.parse(htmlDecode("<%= JSON.stringify(files) %>")))
+    }
+
+    function get_case_name() {
+        return (JSON.parse(htmlDecode("<%= JSON.stringify(cases) %>")))
     }
 
     function start_all() {
         localStorage.setItem('username', document.getElementById('username').value)
         let userName = localStorage.getItem('username')
-        let driver = new Driver(new Editor({callback: "<%= exampleUrl %>", userName: userName}), {files: files_list()})
-        driver.open_all().then(() => {console.log('Finish!')})
+        let driver = new Driver(new Editor({
+            callback: "<%= exampleUrl %>",
+            userName: userName
+        }), {files: files_list()})
+        driver.open_all().then(() => {
+            console.log('Finish!')
+        })
     }
 
-    function paragraph_generate() {
+    function generate_and_open() {
         localStorage.setItem('username', document.getElementById('username').value)
         localStorage.setItem('start_from', document.getElementById('start_from').value)
         let userName = localStorage.getItem('userName')
@@ -56,7 +95,28 @@
         const option = {case: 'paragraphs', start_from: start_from}
         const editor = new Editor({callback: "<%= exampleUrl %>", userName: userName})
         let driver = new Driver(editor, option)
-        driver.open_with_generate('paragraph').then(() => {console.log('Finish!')})
+        driver.open_with_generate('paragraph').then(() => {
+            log('Finish!')
+            console.log('Finish!')
+        })
+    }
+
+    function paragraph_generate() {
+        log_clear()
+        localStorage.setItem('username', document.getElementById('username').value)
+        localStorage.setItem('start_from', document.getElementById('start_from').value)
+        let userName = localStorage.getItem('userName')
+        let start_from = localStorage.getItem('start_from')
+        const option = {case: this.selected_case, start_from: start_from}
+        const editor = new Editor({callback: "<%= exampleUrl %>", userName: userName})
+        let driver = new Driver(editor, option)
+        open_generated(driver);
+    }
+    function open_generated(driver) {
+        driver.open_with_generate(this.selected_case).then(() => {
+            console.log('Finish!')
+            open_generated(driver)
+        })
     }
 </script>
 </body>

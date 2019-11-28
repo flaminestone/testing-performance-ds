@@ -15,3 +15,14 @@ function reformat_results(results) {
     });
     return averagedResults;
 }
+function log(data) {
+    let element = document.getElementById('log-element')
+    element.innerHTML += data
+}
+
+function log_clear() {
+    document.getElementById('log-element').innerHTML = ''
+}
+function counter_change(counter) {
+    document.getElementById('start_from').value = counter
+}
