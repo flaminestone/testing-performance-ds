@@ -26,7 +26,7 @@ class Driver {
         }).then(time => {
             console.log(this.editor);
             log( ' = ' + time + "\n");
-            this.send_result({ username: this.editor.userName, time: Math.round(time), log: case_name });
+            this.send_result({ username: this.editor.userName, time: Math.round(time), case: case_name, counter: this.option.start_from });
             this.option.start_from = +this.option.start_from + 1;
             counter_change(this.option.start_from)
         });
