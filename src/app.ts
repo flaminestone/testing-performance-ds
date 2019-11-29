@@ -44,7 +44,7 @@ app.post('/callback:filename', (req, res) => {
 });
 
 app.post('/add_result', (req, res) => {
-    console.log(req.body);
+    app.database.add_result(req.body);
     res.json({error: 0});
 });
 
