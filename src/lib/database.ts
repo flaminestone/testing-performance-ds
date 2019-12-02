@@ -33,7 +33,7 @@ export class Database {
     add_case_result(result) {
         let user = this.get_user(result.username);
         if (!user.value()) {
-            console.log(result.counter)
+            console.log(result.counter);
             this.db.get('users').push({
                 username: result.username,
                 files: [],
@@ -75,7 +75,8 @@ export class Database {
     }
 
     get_results(username) {
-        return this.db.get('users').find({username: username}).get('files').value();
+        const usernameObj = this.db.get('users').find({username: username});
+        return {files: usernameObj.get('files').value(), cases: usernameObj.get('cases').value()};
     }
 
     get_users() {
