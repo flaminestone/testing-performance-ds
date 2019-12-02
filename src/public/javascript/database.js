@@ -14,7 +14,6 @@ class Database {
             xhr.send(JSON.stringify({username: username}));
             xhr.onreadystatechange = (e) => {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    console.log(';asasdasd')
                     succeed(xhr.responseText)
                 }
             }
@@ -29,7 +28,6 @@ class Database {
             xhr.send();
             xhr.onreadystatechange = (e) => {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    console.log(';users')
                     succeed(xhr.responseText)
                 }
             }
