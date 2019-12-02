@@ -1,54 +1,120 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel='stylesheet' type="text/css" href='public/stylesheets/style.css' />
-     <script type="text/javascript" src="public/javascript/database.js"></script>
-     <script type="text/javascript" src="public/javascript/helper.js"></script>
+<head>
+    <link rel='stylesheet' type="text/css" href='public/stylesheets/style.css'/>
+    <script type="text/javascript" src="public/javascript/database.js"></script>
+    <script type="text/javascript" src="public/javascript/helper.js"></script>
+    <link href="public/javascript/lib/tabulator/css/tabulator.min.css" rel="stylesheet">
     <link href="public/javascript/lib/tabulator/css/tabulator.min.css" rel="stylesheet">
     <script type="text/javascript" src="public/javascript/lib/tabulator/js/tabulator.min.js"></script>
-  </head>
-  <body>
-  <div class="space">
+    <script type="text/javascript" src="public/javascript/lib/chart/Chart.bundle.min.js"></script>
+</head>
+<body>
+<div class="space">
     <div class="navigation">
-      <a href="/">test</a>
+        <a href="/">test</a>
     </div>
     <div class="info">
-      <div class="action-form">
-      </div>
+        <div class="action-form">
+        </div>
     </div>
-  </div>
-  <button onclick="show_userlist()">User list</button>
-  <div class="current-user" id="current-user"></div>
-  <div id="table"></div>
-
-  </body>
+</div>
+<button onclick="show_userlist()">User list</button>
+<div class="current-user" id="current-user"></div>
+<div id="table"></div>
+<div class="chart">
+    <canvas id="myChart" width="400" height="400"></canvas>
+</div>
+</body>
 </html>
 
-
 <script>
-  show_userlist();
-  function show_results(username) {
-    Database.get_results(username).then(results => {
-      let averagedResults = reformat_results(results)
-      new Tabulator("#table", {
-        data:averagedResults,
-        autoColumns:true,
-      });
-    });
-  }
+    show_userlist();
 
-  function show_userlist() {
-      document.getElementById('current-user').innerHTML = '';
-    Database.get_userlist().then(usernames => {
-      new Tabulator("#table", {
-        rowClick:function(e, row){
-            document.getElementById('current-user').innerHTML = 'sdasdasd';
-            show_results(row.getData().username)
-        },
+    function show_results(username) {
+        Database.get_results(username).then(results => {
+            let averagedResults = reformat_results(results)
+            new Tabulator("#table", {
+                rowClick: function (e, row) {
+                    const filename = row.getData().filename;
+                    let data = JSON.parse(results).cases.find(current => {
+                        return current.casename === filename
+                    })
+                    show_chart(data.result)
+                },
+                data: averagedResults,
+                autoColumns: true,
+            });
+        });
+    }
 
-        data:JSON.parse(usernames),
-        autoColumns:true,
-      });
-    });
-  }
+    function show_userlist() {
+        document.getElementById('current-user').innerHTML = '';
+        Database.get_userlist().then(usernames => {
+            new Tabulator("#table", {
+                rowClick: function (e, row) {
+                    show_results(row.getData().username)
+                },
+
+                data: JSON.parse(usernames),
+                autoColumns: true,
+            });
+        });
+    }
+
+    function show_chart(data) {
+        let datasets = [];
+        const labels = data.map(current => current.counter)
+        data.forEach(current => {
+                if (datasets[0]) {
+                    datasets[0].data.push(current.time.pop())
+                    datasets.forEach(current => {
+                        current.data.push
+                    })
+                } else {
+                    datasets[0] = {
+                        label: 'Dataset 0',
+                        data: [current.time.pop()],
+                        fill: false,
+                        pointRadius: 2,
+                        pointHoverRadius: 3,
+                        showLine: true // no line shown
+                    }
+                }
+        })
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: datasets
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                elements: {
+                    point: {
+                        pointStyle: 'circle'
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Iterations'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Time'
+                        }
+                    }]
+                }
+            }
+        });
+    }
 </script>
