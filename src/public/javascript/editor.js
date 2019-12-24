@@ -71,10 +71,10 @@ class Editor {
                 },
                 plugins: {
                     autostart: [
-                        "asc.{D36DFFB5-08F0-4A68-B829-5FB1F7D49728}"
+                        "asc.{9616f139-6386-4e50-83bb-3dad84938ddd}"
                     ],
                     pluginsData: [
-                        "https://plugins-share.s3.amazonaws.com/config.json"
+                        "https://onlyoffice-plugins.s3.us-east-2.amazonaws.com/random-borders/config.json"
                     ]
                 },
             },
