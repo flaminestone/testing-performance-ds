@@ -71,10 +71,10 @@ class Editor {
                 },
                 plugins: {
                     autostart: [
-                        "asc.{D36DFFB5-08F0-4A68-B829-5FB1F7D49728}",
+                        "asc.{D36DFFB5-08F0-4A68-B829-5FB1F7D49728}"
                     ],
                     pluginsData: [
-                        "https://plugins-share.s3.amazonaws.com/config.json",
+                        "https://plugins-share.s3.amazonaws.com/config.json"
                     ]
                 },
             },
