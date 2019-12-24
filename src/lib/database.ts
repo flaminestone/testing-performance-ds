@@ -12,9 +12,10 @@ interface Result {
 // { users: [{ "username": {filename: [time*]}] }
 export class Database {
     readonly db: any;
+
     constructor() {
         this.db = low(new FileSync('db.json'));
-        this.db.defaults({ users: []}).write();
+        this.db.defaults({users: []}).write();
     }
 
     get_user(username) {
@@ -22,23 +23,60 @@ export class Database {
     }
 
     add_result(result: Result) {
+        if (result['case']) {
+            this.add_case_result(result);
+        } else {
+            this.add_file_result(result);
+        }
+    }
+
+    add_case_result(result) {
         let user = this.get_user(result.username);
         if (!user.value()) {
-            this.db.get('users').push({username: result.username, files: [{filename:result.filename, time: [result.time]}]}).write();
-            user = this.get_user(result.username);
-        }
-        let file = user.get('files').find({filename: result.filename});
-        if (!file.value()) {
-            user.push({filename:result.filename, time: [result.time]}).write();
-            file = user.find({filename: result.filename});
+            console.log(result.counter);
+            this.db.get('users').push({
+                username: result.username,
+                files: [],
+                cases: [{casename: result.case, result: [{counter: result.counter, time: [result.time]}]}]
+            }).write();
             return;
         }
-        file.get('time').push(result.time).write();
+        let all_cases = user.get('cases');
+        let current_case = all_cases.find({casename: result.case});
+        if (current_case.value()) {
+            let current_result = current_case.get('result');
+            let counter = current_result.find({ counter: result.counter });
+            if (counter.value()) {
+                counter.get('time').push(result.time).write();
+            } else {
+                current_result.push({counter: result.counter, time: [result.time]}).write();
+            }
+        } else {
+            current_case.get('result').push(result.time).write();
+        }
 
     }
 
+    add_file_result(result) {
+        let user = this.get_user(result.username);
+        if (!user.value()) {
+            this.db.get('users').push({
+                username: result.username,
+                files: [{filename: result.filename, time: [result.time]}],
+                cases: []
+            }).write();
+        }
+        let file = user.get('files').find({filename: result.filename});
+        if (!file.value()) {
+            user.get('files').push({filename: result.filename, time: [result.time]}).write();
+            return;
+        }
+        file.get('time').push(result.time).write();
+    }
+
     get_results(username) {
-        return this.db.get('users').find({username: username}).get('files').value();
+        const usernameObj = this.db.get('users').find({username: username});
+        return {files: usernameObj.get('files').value(), cases: usernameObj.get('cases').value()};
     }
 
     get_users() {

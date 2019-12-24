@@ -1,6 +1,7 @@
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
 }
 
 a {
@@ -17,5 +18,19 @@ a {
 }
 
 .navigation {
+  display: flex;
+}
+
+.user_form {
+  display: flex;
+  margin: auto;
+}
+
+.header {
+  display: flex;
   padding-bottom: 2em;
+}
+
+#start_from {
+  width: 3em;
 }

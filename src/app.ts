@@ -31,18 +31,27 @@ app.post('/users', (req, res) => {
 
 app.get('/', (req, res) => {
     let files = fs.readdirSync('./src/public/documents');
+    let cases = fs.readdirSync('./src/public/scripts');
     res.render('index', { documentServer: settings['documentserver'],
         exampleUrl: settings['host_url'],
         files: files,
+        cases: cases,
         userName: 'User name'});
 });
 
-app.post('/callback:filename', (req, res) => {
+app.get('/open', (req, res) => {
+    res.render('open', { documentServer: settings['documentserver'],
+        exampleUrl: settings['host_url'],
+        files: '/Document1.docx',
+        userName: 'User name'});
+});
+
+app.post('/callback', (req, res) => {
     res.json({error: 0});
 });
 
 app.post('/add_result', (req, res) => {
-    console.log(req.body);
+    app.database.add_result(req.body);
     res.json({error: 0});
 });
 

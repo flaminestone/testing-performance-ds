@@ -18,18 +18,33 @@ class Driver {
         }
     }
 
+    async open_first() {
+        this.results = {};
+        for (let i = 0; i < this.files.length; i++) {
+            const file = this.files[i];
+            console.log('Open file ' + file);
+            this.editor.open(file);
+            let time = await this.editor.get_time(60000);
+            this.send_result({ username: this.editor.userName, time: Math.round(time), filename: file })
+        }
+    }
+
     async open_with_generate(case_name) {
         return this.generate_document(this.option.start_from).then((result) => {
             let fileurl = JSON.parse(result)['fileurl'];
             this.editor.open_by_link(fileurl);
             return this.editor.get_time(60000);
         }).then(time => {
-            console.log(this.editor)
-            this.send_result({ username: this.editor.userName, time: Math.round(time), log: case_name });
+            console.log(this.editor);
+            log( ' = ' + time + "\n");
+            this.send_result({ username: this.editor.userName, time: Math.round(time), case: case_name, counter: this.option.start_from });
+            this.option.start_from = +this.option.start_from + 1;
+            counter_change(this.option.start_from)
         });
     }
 
     generate_document(counter) {
+        log(this.option.case + ' [' + counter + ']');
         return new Promise((succeed) => {
             let xhr = new XMLHttpRequest();
             xhr.open("POST", '/generate' +  '&counter=' + counter, true);
