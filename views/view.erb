@@ -1,0 +1,11 @@
+<script type="text/javascript" src="<%= @documentserver %>/web-apps/apps/api/documents/api.js"></script>
+<div id="editor"></div>
+<script>
+    new DocsAPI.DocEditor("editor", {
+        documentType: 'text',
+        document: {
+            url: '<%= @example_url %>/documents/<%= @document %>'
+        },
+        editorConfig: {mode: 'view'}
+    });
+</script>

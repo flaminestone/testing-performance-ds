@@ -1,0 +1,9 @@
+version: '3'
+services:
+  documentserver:
+    image: onlyoffice/4testing-documentserver-ie:latest
+    volumes:
+      - ./plugin:/var/www/onlyoffice/documentserver/sdkjs-plugins/plugin
+    ports:
+      - "80:80"
+

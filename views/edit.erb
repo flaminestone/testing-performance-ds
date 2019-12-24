@@ -1,0 +1,29 @@
+<script type="text/javascript" src="<%= @documentserver %>/web-apps/apps/api/documents/api.js"></script>
+<div id="editor"></div>
+<script>
+    new DocsAPI.DocEditor("editor", {
+        documentType: 'text',
+        document: {
+            fileType: "docx",
+            url: '<%= @example_url %>/documents/<%= @document %>',
+            title: "<%= @document %>",
+            key: '<%= @key %>',
+        },
+        editorConfig: {
+            mode: 'edit',
+            callbackUrl: "<%= @example_url %>" + '/callback' + '&filename=' + "<%= @document %>",
+            plugins: {
+                autostart: [
+                    "asc.{D36DFFB5-08F0-4A68-B829-5FB1F7D49725}",
+                ],
+                pluginsData: [
+                    "<%= @example_url %>/public/plugin/config.json",
+                ]
+            },
+            user: {
+                id: '<%= @user_id %>',
+                name: '<%= @user_name %>'
+            }
+        },
+    });
+</script>

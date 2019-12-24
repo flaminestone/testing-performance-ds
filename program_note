@@ -1,1 +1,1 @@
-docker run -itd -p 3000:80 onlyoffice/4testing-documentserver-ie
+docker run -itd -p 80:80 -v /home/flamine/work/plugin:/var/www/onlyoffice/documentserver/sdkjs-plugins/plugin onlyoffice/4testing-documentserver-ie:5.4.99.1660
