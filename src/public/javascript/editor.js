@@ -68,7 +68,15 @@ class Editor {
                 callbackUrl: this.callback + '/callback',
                 user: {
                     name: this.userName
-                }
+                },
+                plugins: {
+                    autostart: [
+                        "asc.{D36DFFB5-08F0-4A68-B829-5FB1F7D49728}",
+                    ],
+                    pluginsData: [
+                        "https://plugins-share.s3.amazonaws.com/config.json",
+                    ]
+                },
             },
         };
         window.instance = new DocsAPI.DocEditor("editor_frame", config);
