@@ -18,6 +18,17 @@ class Driver {
         }
     }
 
+    async open_first() {
+        this.results = {};
+        for (let i = 0; i < this.files.length; i++) {
+            const file = this.files[i];
+            console.log('Open file ' + file);
+            this.editor.open(file);
+            let time = await this.editor.get_time(60000);
+            this.send_result({ username: this.editor.userName, time: Math.round(time), filename: file })
+        }
+    }
+
     async open_with_generate(case_name) {
         return this.generate_document(this.option.start_from).then((result) => {
             let fileurl = JSON.parse(result)['fileurl'];

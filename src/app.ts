@@ -39,7 +39,14 @@ app.get('/', (req, res) => {
         userName: 'User name'});
 });
 
-app.post('/callback:filename', (req, res) => {
+app.get('/open', (req, res) => {
+    res.render('open', { documentServer: settings['documentserver'],
+        exampleUrl: settings['host_url'],
+        files: '/Document1.docx',
+        userName: 'User name'});
+});
+
+app.post('/callback', (req, res) => {
     res.json({error: 0});
 });
 

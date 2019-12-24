@@ -1,5 +1,6 @@
 class Editor {
     constructor(option = {}) {
+        console.log(option)
         this.callback = option.callback;
         this.userName = option.userName;
         window.time = 0;
@@ -45,6 +46,26 @@ class Editor {
             editorConfig: {
                 mode: 'edit',
                 callbackUrl: this.callback + '/callback' + '&filename=' + filename,
+                user: {
+                    name: this.userName
+                }
+            },
+        };
+        window.instance = new DocsAPI.DocEditor("editor_frame", config);
+    }
+
+    open_and_wait(filename) {
+        window.time = 0;
+        this.time_tmp = 0;
+        const config = {
+            documentType: 'text',
+            document: {
+                fileType: "docx",
+                url: this.callback + "/public/documents/" + filename,
+            },
+            editorConfig: {
+                mode: 'edit',
+                callbackUrl: this.callback + '/callback',
                 user: {
                     name: this.userName
                 }
