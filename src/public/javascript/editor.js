@@ -1,6 +1,5 @@
 class Editor {
     constructor(option = {}) {
-        console.log(option)
         this.callback = option.callback;
         this.userName = option.userName;
         window.time = 0;
@@ -54,7 +53,7 @@ class Editor {
         window.instance = new DocsAPI.DocEditor("editor_frame", config);
     }
 
-    open_and_wait(filename) {
+    open_and_wait(filename, key) {
         window.time = 0;
         this.time_tmp = 0;
         const config = {
@@ -79,6 +78,10 @@ class Editor {
                 },
             },
         };
+        if (key) {
+            config['document']['key'] = key
+        }
+        console.log(config)
         window.instance = new DocsAPI.DocEditor("editor_frame", config);
     }
 

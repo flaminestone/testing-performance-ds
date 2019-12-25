@@ -29,9 +29,11 @@
         return (JSON.parse(htmlDecode("<%= JSON.stringify(files) %>")))
     }
 
+    console.log(JSON.parse(htmlDecode("<%= JSON.stringify(key) %>")))
+
     new Editor({
         callback: "<%= exampleUrl %>",
-    }).open_and_wait(files_list())
+    }).open_and_wait(files_list(), JSON.parse(htmlDecode("<%= JSON.stringify(key) %>")))
 </script>
 </body>
 </html>

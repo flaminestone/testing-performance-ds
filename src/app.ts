@@ -40,10 +40,14 @@ app.get('/', (req, res) => {
 });
 
 app.get('/open', (req, res) => {
-    res.render('open', { documentServer: settings['documentserver'],
+    const _params = { documentServer: settings['documentserver'],
         exampleUrl: settings['host_url'],
         files: '/Document1.docx',
-        userName: 'User name'});
+        userName: 'User name'};
+    if (req.query.key) {
+        _params['key'] = req.query.key
+    }
+    res.render('open', _params);
 });
 
 app.post('/callback', (req, res) => {
