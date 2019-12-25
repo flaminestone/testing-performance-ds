@@ -1,7 +1,7 @@
 class Editor {
     constructor(option = {}) {
         this.callback = option.callback;
-        this.userName = option.userName;
+        this.userName = option.username;
         window.time = 0;
         this.time_tmp = 0;
     }
@@ -80,6 +80,10 @@ class Editor {
         };
         if (key) {
             config['document']['key'] = key
+        }
+
+        if (this.userName) {
+            config['editorConfig']['user'] = {"name": this.userName}
         }
         window.instance = new DocsAPI.DocEditor("editor_frame", config);
     }

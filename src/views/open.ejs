@@ -24,13 +24,16 @@
 
 </style>
 <script>
+    const username = JSON.parse(htmlDecode("<%= JSON.stringify(username) %>"));
+
+    new Editor({
+        callback: "<%= exampleUrl %>",
+        username: username
+    }).open_and_wait(files_list(), JSON.parse(htmlDecode("<%= JSON.stringify(key) %>")))
 
     function files_list() {
         return (JSON.parse(htmlDecode("<%= JSON.stringify(files) %>")))
     }
-    new Editor({
-        callback: "<%= exampleUrl %>",
-    }).open_and_wait(files_list(), JSON.parse(htmlDecode("<%= JSON.stringify(key) %>")))
 </script>
 </body>
 </html>

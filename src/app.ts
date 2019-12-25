@@ -47,6 +47,9 @@ app.get('/open', (req, res) => {
     if (req.query.key) {
         _params['key'] = req.query.key
     }
+    if (req.query.username) {
+        _params['username'] = req.query.username
+    }
     res.render('open', _params);
 });
 
