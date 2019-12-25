@@ -54,8 +54,6 @@ class Editor {
     }
 
     open_and_wait(filename, key) {
-        window.time = 0;
-        this.time_tmp = 0;
         const config = {
             documentType: 'text',
             document: {
