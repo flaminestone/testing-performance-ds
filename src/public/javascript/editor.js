@@ -81,7 +81,6 @@ class Editor {
         if (key) {
             config['document']['key'] = key
         }
-        console.log(config)
         window.instance = new DocsAPI.DocEditor("editor_frame", config);
     }
 
