@@ -1,13 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel='stylesheet' type="text/css" href='public/stylesheets/style.css'/>
-    <link rel='stylesheet' type="text/css" href='public/stylesheets/tabs.css'/>
+    <link rel="shortcut icon" href="public/favicon.ico" />
     <script type="text/javascript" src="<%= documentServer %>/web-apps/apps/api/documents/api.js"></script>
     <script type="text/javascript" src="public/javascript/editor.js"></script>
-    <script type="text/javascript" src="public/javascript/driver.js"></script>
-    <script type="text/javascript" src="public/javascript/helper.js"></script>
-    <script type="text/javascript" src="public/javascript/database.js"></script>
 </head>
 <body>
 
@@ -24,16 +20,15 @@
 
 </style>
 <script>
-    const username = JSON.parse(htmlDecode("<%= JSON.stringify(username) %>"));
+    const username = "<%= username %>";
+    const key = "<%= key %>";
+    const files = "<%= files %>";
 
     new Editor({
         callback: "<%= exampleUrl %>",
         username: username
-    }).open_and_wait(files_list(), JSON.parse(htmlDecode("<%= JSON.stringify(key) %>")))
+    }).open_and_wait(files, key)
 
-    function files_list() {
-        return (JSON.parse(htmlDecode("<%= JSON.stringify(files) %>")))
-    }
 </script>
 </body>
 </html>
