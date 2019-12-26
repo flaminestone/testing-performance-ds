@@ -71,7 +71,7 @@ class Editor {
                         "asc.{9616f139-6386-4e50-83bb-3dad84938ddd}"
                     ],
                     pluginsData: [
-                        "https://onlyoffice-plugins.s3.us-east-2.amazonaws.com/random-borders/config.json"
+                        this.callback + "/public/plugin/config.json"
                     ]
                 },
             },

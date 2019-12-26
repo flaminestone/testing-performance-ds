@@ -9,13 +9,26 @@ const settings = require("./settings.json");
 
 const app = express();
 app.database = new Database();
+
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', ['*']);
+    res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
+    if (req.method === 'OPTIONS') {
+        return res.send(200);
+    } else {
+        return next();
+    }
+});
+
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use('/public', express.static(path.join(__dirname, 'public')));
+
 app.openSettings = {username: "username", key: ""};
-app.userActivity = {username: {}};
+app.userActivity = {};
 
 app.get('/results', (req, res) => {
     res.render('results')
@@ -60,7 +73,7 @@ app.get('/open', (req, res) => {
 });
 
 app.get('/open/settings', (req, res) => {
-    res.render('open-settings.ejs', app.openSettings);
+    res.render('open-settings.ejs', { settings: app.openSettings});
 });
 
 app.post('/open/settings', (req, res) => {
@@ -69,12 +82,13 @@ app.post('/open/settings', (req, res) => {
 });
 
 app.post('/open/activity', (req, res) => {
-    console.log('asdasd');
-    console.log(req.body.username);
-    app.userActivity.username[req.body.username] = Date.now();
+    app.userActivity[req.body.username] = Date.now();
     res.json({error: 0});
 });
 
+app.post('/open/get_activity', (req, res) => {
+    res.json(app.userActivity);
+});
 app.post('/callback', (req, res) => {
     res.json({error: 0});
 });

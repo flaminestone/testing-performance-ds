@@ -7,15 +7,16 @@
 
     <div class="form-block">
         <label>Default key</label>
-        <input id="key" value="<%= key %>">
+        <input id="key" value="<%= settings.key %>">
     </div>
 
     <div class="form-block">
         <label>Default username</label>
-        <input id="username" value="<%= username %>">
+        <input id="username" value="<%= settings.username %>">
     </div>
     <button onclick="save()">Save</button>
 </div>
+<button onclick="get_activity()">Save</button>
 
 </body>
 </html>
@@ -26,16 +27,27 @@
             username: document.getElementById('username').value,
             key: document.getElementById('key').value
         }
-        return new Promise((succeed) => {
+        return new Promise(() => {
             let xhr = new XMLHttpRequest();
             xhr.open("POST", '/open/settings', true);
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.send(JSON.stringify(data));
+        })
+    }
+
+    function get_activity() {
+        new Promise((succeed) => {
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", '/open/get_activity', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({username: username}));
             xhr.onreadystatechange = (e) => {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     succeed(xhr.responseText)
                 }
             }
+        }).then(result => {
+            console.log(result);
         })
     }
 </script>
