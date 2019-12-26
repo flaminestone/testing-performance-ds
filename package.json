@@ -6,6 +6,7 @@
   "types": "./vendor.d.ts",
   "scripts": {
     "start": "ts-node src/app.ts",
+    "start:prod": " node dist/app.js > out.log &",
     "build": "tsc -b && npm run copy-settings && npm run copy-templaters && npm run copy-public",
     "copy-settings": "cp -v src/settings.json dist/settings.json",
     "copy-templaters": "cp -rv src/views dist/views",
