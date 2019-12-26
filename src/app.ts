@@ -86,8 +86,8 @@ app.post('/add_result', (req, res) => {
 
 app.post('/generate:counter', (req, res) => {
     const filename = Generator.generate_document(req.body);
-    Builder.build(filename).then(responce => {
-        res.json({fileurl: Object.values(responce['urls'])[0]});
+    Builder.build(filename).then(response => {
+        res.json({fileurl: Object.values(response['urls'])[0]});
     })
 });
 
