@@ -84,7 +84,7 @@ app.post('/open/settings', (req, res) => {
 app.post('/open/activity', (req, res) => {
     let data = Date.now();
     app.userActivity[req.body.username] = data;
-    res.json({username: req.body.username, time: app.userActivity[req.body.username]});
+    res.json({username: req.body.username, time: data});
 });
 
 app.post('/open/get_activity', (req, res) => {
