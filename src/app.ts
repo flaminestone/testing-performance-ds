@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use('/public', express.static(path.join(__dirname, 'public')));
+app.openSettings = {username: "username", key: ""};
 
 app.get('/results', (req, res) => {
     res.render('results')
@@ -46,11 +47,25 @@ app.get('/open', (req, res) => {
         userName: 'User name'};
     if (req.query.key) {
         _params['key'] = req.query.key
+    } else {
+        _params['key'] = app.openSettings.key
     }
     if (req.query.username) {
         _params['username'] = req.query.username
+    } else {
+        _params['username'] = app.openSettings.username
     }
+    console.log(_params)
     res.render('open', _params);
+});
+
+app.get('/open/settings', (req, res) => {
+    res.render('open-settings.ejs', app.openSettings);
+});
+
+app.post('/open/settings', (req, res) => {
+    app.openSettings = req.body;
+    res.json({error: 0});
 });
 
 app.post('/callback', (req, res) => {
