@@ -82,8 +82,9 @@ app.post('/open/settings', (req, res) => {
 });
 
 app.post('/open/activity', (req, res) => {
-    app.userActivity[req.body.username] = Date.now();
-    res.json({error: 0});
+    let data = Date.now();
+    app.userActivity[req.body.username] = data ;
+    res.json({data: app.userActivity[req.body.username]});
 });
 
 app.post('/open/get_activity', (req, res) => {
