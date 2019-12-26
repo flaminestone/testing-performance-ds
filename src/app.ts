@@ -5,7 +5,7 @@ import { Database } from './lib/database'
 import { Generator } from './lib/generator'
 import { Builder } from './lib/builder'
 import bodyParser = require("body-parser");
-const settings = require("../src/settings.json");
+const settings = require("./settings.json");
 
 const app = express();
 app.database = new Database();
