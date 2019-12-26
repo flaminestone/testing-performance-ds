@@ -42,12 +42,12 @@
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.send(JSON.stringify({username: username}));
             xhr.onreadystatechange = (e) => {
+
                 if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(xhr.responseText);
                     succeed(xhr.responseText)
                 }
             }
-        }).then(result => {
-            console.log(result);
         })
     }
 </script>
