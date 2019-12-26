@@ -15,6 +15,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.openSettings = {username: "username", key: ""};
+app.userActivity = {username: {}};
 
 app.get('/results', (req, res) => {
     res.render('results')
@@ -55,7 +56,6 @@ app.get('/open', (req, res) => {
     } else {
         _params['username'] = app.openSettings.username
     }
-    console.log(_params)
     res.render('open', _params);
 });
 
@@ -65,6 +65,13 @@ app.get('/open/settings', (req, res) => {
 
 app.post('/open/settings', (req, res) => {
     app.openSettings = req.body;
+    res.json({error: 0});
+});
+
+app.post('/open/activity', (req, res) => {
+    console.log('asdasd');
+    console.log(req.body.username);
+    app.userActivity.username[req.body.username] = Date.now();
     res.json({error: 0});
 });
 
