@@ -1,6 +1,8 @@
 window.Asc.plugin.init = async function () {
   let j = 0;
-  console.log(window.Asc.plugin.info.userName)
+  const r = Math.floor(Math.random() * 254);
+  const g = Math.floor(Math.random() * 254);
+  const b = Math.floor(Math.random() * 254);
 
 for (let i = 0; i < 100; i) {
     await write();
@@ -19,22 +21,13 @@ for (let i = 0; i < 100; i) {
         oParaPr = oParagraph.GetParaPr();
         oParaPr.SetJc("both");
         oParaPr.SetIndFirstLine(720);
-        const r = Math.floor(Math.random() * 254);
-        const g = Math.floor(Math.random() * 254);
-        const b = Math.floor(Math.random() * 254);
-
         oParaPr.SetBottomBorder("single", 24, 0, r, g, b);
         oParaPr.SetBetweenBorder("single", 24, 0, r, g, b);
         oParaPr.SetLeftBorder("single", 24, 0, r, g, b);
         oParaPr.SetTopBorder("single", 24, 0, r, g, b);
-
-
-
-
       }, false, '',  function () {
-
           let xhr = new XMLHttpRequest();
-          xhr.open("POST", 'http://192.168.3.195:8000/open/activity', true);
+          xhr.open("POST", 'http://178.128.186.166:8000/open/activity', true);
           xhr.setRequestHeader('Content-Type', 'application/json');
           xhr.send(JSON.stringify({ username: window.Asc.plugin.info.userName}));
         setTimeout(() => resolve(), 200);
