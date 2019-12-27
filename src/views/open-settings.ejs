@@ -17,10 +17,15 @@
     <button onclick="save()">Save</button>
 </div>
 <button onclick="get_activity()">Save</button>
+<div id="data">
+
+</div>
+
 
 </body>
 </html>
 <script>
+    let dataStash = {};
     function save() {
 
         const data = {
@@ -45,10 +50,23 @@
 
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     console.log(xhr.responseText);
+                    load_data(xhr.responseText)
                     succeed(xhr.responseText)
                 }
             }
         })
+    }
+
+    function load_data(data) {
+        data = JSON.parse(data)
+        Object.keys(data).forEach(name => {
+            if (document.getElementById(name)) {
+                document.getElementById(name).value = (data[name] - dataStash[name])
+            } else {
+                document.getElementById('data').innerHTML += '<input id="' + name + '" value="' + data[name] + '"</input>'
+            }
+        })
+        dataStash = data;
     }
 </script>
 

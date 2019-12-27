@@ -3,6 +3,9 @@ window.Asc.plugin.init = async function () {
   Asc.scope.r = Math.floor(Math.random() * 254);
   Asc.scope.g = Math.floor(Math.random() * 254);
   Asc.scope.b = Math.floor(Math.random() * 254);
+  console.log(Asc.scope.r);
+  console.log(Asc.scope.g);
+  console.log(Asc.scope.b);
 
 for (let i = 0; i < 100; i) {
     await write();
@@ -10,7 +13,6 @@ for (let i = 0; i < 100; i) {
   
   function write() {
     j += 1;
-    console.error(j);
     return new Promise(resolve => {
       window.Asc.plugin.callCommand(function () {
         var oDocument = Api.GetDocument();
