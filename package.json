@@ -22,7 +22,8 @@
     "http-errors": "~1.6.3",
     "lowdb": "^1.0.0",
     "morgan": "~1.9.1",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
     "@types/node": "^12.12.11",

@@ -6,6 +6,7 @@ import { Generator } from './lib/generator'
 import { Builder } from './lib/builder'
 import bodyParser = require("body-parser");
 const settings = require("./settings.json");
+const uuidv1 = require('uuid/v1');
 
 const app = express();
 app.database = new Database();
@@ -27,8 +28,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
-app.openSettings = {username: "username", key: ""};
+app.openSettings = {username: "username", key: uuidv1()};
 app.userActivity = {};
+app.counter = 0;
 
 app.get('/results', (req, res) => {
     res.render('results')
@@ -59,11 +61,14 @@ app.get('/open', (req, res) => {
         exampleUrl: settings['host_url'],
         files: '/Document1.docx',
         userName: 'User name'};
-    if (req.query.key) {
-        _params['key'] = req.query.key
-    } else {
-        _params['key'] = app.openSettings.key
+    console.log(app.counter)
+
+    if (app.counter >= 10) {
+        app.openSettings.key = uuidv1();
+        app.counter = 0;
     }
+    _params['key'] = app.openSettings.key;
+    app.counter++;
     if (req.query.username) {
         _params['username'] = req.query.username
     } else {
