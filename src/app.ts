@@ -20,9 +20,9 @@ app.use((req, res, next) => {
     }
 });
 
+app.use(bodyParser.json({limit: '10mb'}));
+app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use('/public', express.static(path.join(__dirname, 'public')));
