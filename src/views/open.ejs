@@ -21,6 +21,8 @@
     const username = "<%= username %>";
     const key = "<%= key %>";
     const files = "<%= files %>";
+    window.location.hash ='username=' + username;
+    window.location.hash +='#key=' + key;
 
     new Editor({
         callback: "<%= exampleUrl %>",
