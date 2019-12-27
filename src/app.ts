@@ -63,7 +63,7 @@ app.get('/open', (req, res) => {
         userName: 'User name'};
     console.log(app.counter)
 
-    if (app.counter >= 10) {
+    if (app.counter >= 4) {
         app.openSettings.key = uuidv1();
         app.counter = 0;
     }
